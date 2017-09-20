@@ -1,0 +1,1 @@
+This project contains the front-end of the server.
