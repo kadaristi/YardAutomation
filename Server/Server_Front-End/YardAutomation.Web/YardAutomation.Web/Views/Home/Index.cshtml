@@ -10,33 +10,48 @@
 
 <div class="row">
     <div class="col-md-4">
+        <input type="text" id="ipAddress" value="192.168.1.7" />
+        <input type="text" id="topic" value="IRRIGATION" />
+        <input type="text" id="message" value="Start1"/>
+        <input type="button" value="Send command" id="sendCommand"/>
         <input type="checkbox" name="my-checkbox" checked>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
+        $('#sendCommand').click(function () {
+            var ipAddress = $('#ipAddress').val();
+            var topic = $('#topic').val();
+            var message = $('#message').val();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("SendCommand", "Ajax")',
+                data: {
+                    state: state,
+                    ipAddress: ipAddress,
+                    topic: topic,
+                    message: message
+                },
+                dataType: "json",
+                success: function (data) { }
+            });
+        })
         $("[name='my-checkbox']").bootstrapSwitch();
 
         $('input[name="my-checkbox"]').on('switchChange.bootstrapSwitch', function (event, state) {
             console.log(this); // DOM element
             console.log(event); // jQuery event
             console.log(state); // true | false
+            var ipAddress = $('#ipAddress').val();
+            var topic = $('#topic').val();
             $.ajax({
                 type: "GET",
                 url: '@Url.Action("SendCommand", "Ajax")',
                 data: {
-                    state: state
+                    state: state,
+                    ipAddress: ipAddress,
+                    topic: topic
                 },
                 dataType: "json",
                 success: function (data) { }

@@ -11,11 +11,13 @@ namespace YardAutomation.Web.Controllers
     public class AjaxController : Controller
     {
 
-        public ActionResult SendCommand(bool state)
+        public ActionResult SendCommand(bool state, string message, string topic, string ipAddress)
         {
-            MqttHelper mqttHelper = new MqttHelper("","asd");
-            mqttHelper.SendCommand(state ? Commands.Start1 : Commands.Stop1);
+            MqttHelper mqttHelper = new MqttHelper(ipAddress,topic);
+            mqttHelper.SendCommand(state?Commands.Start1:Commands.Stop1);
             return Json("chamara", JsonRequestBehavior.AllowGet);
         }
+
+
     }
 }
